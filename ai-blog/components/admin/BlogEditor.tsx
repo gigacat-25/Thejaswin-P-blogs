@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Save, Eye, ArrowLeft, Plus, X } from 'lucide-react';
+import { Save, Eye, ArrowLeft, Plus, X, Upload, Loader2 } from 'lucide-react';
 import { slugify } from '@/lib/utils';
+
+const SUGGESTED_TAGS = ['React', 'Next.js', 'AI', 'LLM', 'Cloudflare', 'SQLite', 'Tailwind', 'Edge', 'D1', 'R2', 'TypeScript', 'Node.js', 'Web Dev'];
 
 interface BlogEditorProps {
   initialData?: {
@@ -32,6 +34,53 @@ export default function BlogEditor({ initialData, mode }: BlogEditorProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [preview, setPreview] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (mode === 'create' && typeof window !== 'undefined') {
+      const draftTitle = sessionStorage.getItem('draft_title');
+      const draftContent = sessionStorage.getItem('draft_content');
+      
+      if (draftTitle) {
+        setTitle(draftTitle);
+        setSlug(slugify(draftTitle));
+        sessionStorage.removeItem('draft_title');
+      }
+      if (draftContent) {
+        setContent(draftContent);
+        sessionStorage.removeItem('draft_content');
+      }
+    }
+  }, [mode]);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setError('');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json() as any;
+
+      if (data.success) {
+        setFeaturedImage(data.url);
+      } else {
+        setError(data.error || 'Upload failed');
+      }
+    } catch (err) {
+      setError('Network error during upload');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleTitleChange = (v: string) => {
     setTitle(v);
@@ -141,7 +190,7 @@ export default function BlogEditor({ initialData, mode }: BlogEditorProps) {
                 </span>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: 6 }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
               <input
                 type="text"
                 value={tagInput}
@@ -155,12 +204,58 @@ export default function BlogEditor({ initialData, mode }: BlogEditorProps) {
                 <Plus size={14} />
               </button>
             </div>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.05em' }}>Suggested</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {SUGGESTED_TAGS.filter(t => !tags.includes(t)).slice(0, 10).map(t => (
+                <button
+                  key={t}
+                  onClick={() => setTags([...tags, t])}
+                  style={{
+                    background: 'rgba(0,255,200,0.05)',
+                    border: '1px solid rgba(0,255,200,0.1)',
+                    borderRadius: 4,
+                    color: 'var(--text-muted)',
+                    fontSize: '0.68rem',
+                    padding: '3px 6px',
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-mono)'
+                  }}
+                >
+                  +{t}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Featured Image */}
           <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 8, padding: 16 }}>
-            <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>Featured Image URL</h3>
-            <input type="url" value={featuredImage} onChange={e => setFeaturedImage(e.target.value)} placeholder="https://..." className="input" style={{ fontSize: '0.8rem', padding: '7px 10px' }} />
+            <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>Featured Image</h3>
+            
+            {featuredImage && (
+              <div style={{ position: 'relative', marginBottom: 12, borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
+                <img src={featuredImage} alt="Featured" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                <button 
+                  onClick={() => setFeaturedImage('')}
+                  style={{ position: 'absolute', top: 5, right: 5, background: 'rgba(0,0,0,0.6)', border: 'none', color: '#fff', borderRadius: '50%', width: 20, height: 20, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: 6 }}>
+              <input 
+                type="url" 
+                value={featuredImage} 
+                onChange={e => setFeaturedImage(e.target.value)} 
+                placeholder="https://..." 
+                className="input" 
+                style={{ fontSize: '0.8rem', padding: '7px 10px' }} 
+              />
+              <label className="btn-ghost" style={{ padding: '7px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <input type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
+                {uploading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Upload size={14} />}
+              </label>
+            </div>
           </div>
 
           {/* Info */}

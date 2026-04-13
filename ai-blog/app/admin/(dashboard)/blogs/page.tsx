@@ -13,6 +13,7 @@ export default function AdminBlogsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
   const fetchBlogs = async (p = 1) => {
     setLoading(true);
@@ -30,10 +31,10 @@ export default function AdminBlogsPage() {
   useEffect(() => { fetchBlogs(); }, []);
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this post?')) return;
     setDeleting(id);
     await fetch(`/api/admin/blogs/${id}`, { method: 'DELETE' });
     setDeleting(null);
+    setConfirmDelete(null);
     fetchBlogs(page);
   };
 
@@ -100,22 +101,45 @@ export default function AdminBlogsPage() {
                     {new Date((blog.published_at || blog.created_at) * 1000).toLocaleDateString()}
                   </td>
                   <td style={{ padding: '14px 16px' }}>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <Link href={`/blog/${blog.slug}`} target="_blank" style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-cyan)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
-                        <Eye size={15} />
-                      </Link>
-                      <Link href={`/admin/blogs/${blog.id}/edit`} style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-cyan)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
-                        <Edit2 size={15} />
-                      </Link>
-                      <button onClick={() => handleDelete(blog.id)} disabled={deleting === blog.id} style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-orange)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
-                        <Trash2 size={15} />
-                      </button>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      {confirmDelete === blog.id ? (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--accent-orange)', textTransform: 'uppercase' }}>Delete?</span>
+                          <button 
+                            onClick={() => handleDelete(blog.id)} 
+                            disabled={deleting === blog.id}
+                            className="btn-primary" 
+                            style={{ padding: '4px 8px', fontSize: '0.65rem', background: 'var(--accent-orange)', borderColor: 'var(--accent-orange)', color: '#fff' }}
+                          >
+                            Yes
+                          </button>
+                          <button 
+                            onClick={() => setConfirmDelete(null)} 
+                            className="btn-ghost" 
+                            style={{ padding: '4px 8px', fontSize: '0.65rem' }}
+                          >
+                            No
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <Link href={`/blog/${blog.slug}`} target="_blank" style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-cyan)')}
+                            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
+                            <Eye size={15} />
+                          </Link>
+                          <Link href={`/admin/blogs/${blog.id}/edit`} style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-cyan)')}
+                            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
+                            <Edit2 size={15} />
+                          </Link>
+                          <button onClick={() => setConfirmDelete(blog.id)} style={{ color: 'var(--text-muted)', padding: 6, borderRadius: 4, display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'var(--accent-orange)')}
+                            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'var(--text-muted)')}>
+                            <Trash2 size={15} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

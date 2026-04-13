@@ -45,7 +45,7 @@ CREATE INDEX IF NOT EXISTS idx_subscribers_status ON subscribers(status);
 CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(email);
 
 -- Seed data: sample blog posts
-INSERT INTO blogs (title, slug, content, excerpt, tags, featured_image, status, created_at, updated_at, published_at, view_count)
+INSERT OR IGNORE INTO blogs (title, slug, content, excerpt, tags, featured_image, status, created_at, updated_at, published_at, view_count)
 VALUES 
 (
   'Getting Started with AI-Powered Content Creation',

@@ -29,6 +29,10 @@ export default function BlogFilters({ currentTag, currentSearch }: Props) {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    if (search.toLowerCase().trim() === 'admin') {
+      router.push('/admin/login');
+      return;
+    }
     navigateTo({ search: search || undefined });
   };
 

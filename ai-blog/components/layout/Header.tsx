@@ -64,9 +64,6 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link href="/admin" className="btn-primary" style={{ fontSize: '0.8rem', padding: '8px 18px' }}>
-            Admin
-          </Link>
         </nav>
 
         {/* Mobile hamburger */}
@@ -96,9 +93,6 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link href="/admin" onClick={() => setOpen(false)} className="btn-primary" style={{ textAlign: 'center', fontSize: '0.85rem' }}>
-            Admin
-          </Link>
         </div>
       )}
 
