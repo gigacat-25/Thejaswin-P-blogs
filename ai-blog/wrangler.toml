@@ -14,3 +14,5 @@ database_id = "9d891d85-3634-4fe2-81f1-2534ed407b6d"
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "ai-blog-assets"
+
+pages_build_output_dir = ".vercel/output"
