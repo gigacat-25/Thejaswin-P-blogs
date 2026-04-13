@@ -9,6 +9,7 @@ const navItems = [
   { href: '/admin/blogs', icon: <FileText size={16} />, label: 'Blog Posts' },
   { href: '/admin/generate', icon: <Bot size={16} />, label: 'AI Generator' },
   { href: '/admin/subscribers', icon: <Users size={16} />, label: 'Subscribers' },
+  { href: '/admin/email', icon: <Mail size={16} />, label: 'Email Campaigns' },
 ];
 
 export default function AdminSidebar() {

@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import { Zap, Github, Twitter, Rss } from 'lucide-react';
+import { Zap, Globe, MessageCircle, Rss } from 'lucide-react';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -46,8 +48,8 @@ export default function Footer() {
             </h4>
             <div style={{ display: 'flex', gap: 12 }}>
               {[
-                { icon: <Github size={18} />, href: '#', label: 'GitHub' },
-                { icon: <Twitter size={18} />, href: '#', label: 'Twitter' },
+                { icon: <MessageCircle size={18} />, href: '#', label: 'GitHub' },
+                { icon: <Globe size={18} />, href: '#', label: 'Twitter' },
                 { icon: <Rss size={18} />, href: '/api/rss', label: 'RSS' },
               ].map(({ icon, href, label }) => (
                 <a key={label} href={href} title={label} style={{

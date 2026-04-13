@@ -46,9 +46,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <main style={{ padding: '48px 0 80px' }}>
         <div className="container">
           {/* Back link */}
-          <Link href="/blogs" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', textDecoration: 'none', marginBottom: 32, transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
+          <Link href="/blogs" className="link-hover" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', textDecoration: 'none', marginBottom: 32 }}>
             <ArrowLeft size={14} /> Back to Blog
           </Link>
 
@@ -91,9 +89,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
                 {/* Share buttons */}
                 <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(`${appUrl}/blog/${slug}`)}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, transition: 'color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent-cyan)')}
-                    onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}>
+                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(`${appUrl}/blog/${slug}`)}`} target="_blank" rel="noopener noreferrer" className="link-hover" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
                     <Share2 size={13} /> Share
                   </a>
                 </div>

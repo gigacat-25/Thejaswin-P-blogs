@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
 :root {
   /* Core palette – High-Tech Industrial */
@@ -149,6 +148,13 @@ a:hover { opacity: 0.8; }
 .btn-ghost:hover {
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
+}
+
+.link-hover {
+  transition: color 0.2s;
+}
+.link-hover:hover {
+  color: var(--accent-cyan) !important;
 }
 
 /* Input fields */

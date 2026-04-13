@@ -59,7 +59,7 @@ export default async function AdminDashboard() {
             fontSize: '0.875rem',
             textDecoration: 'none',
             transition: 'all 0.2s',
-          }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = `${color}1a`; }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg-elevated)'; }}>
+          }}>
             {icon} {label}
           </Link>
         ))}
