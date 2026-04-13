@@ -13,6 +13,6 @@ export async function GET(req: Request) {
   if (!await auth()) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get('page') || '1');
-  const result = getAllSubscribersAdmin(page);
+  const result = await getAllSubscribersAdmin(page);
   return NextResponse.json({ success: true, ...result });
 }

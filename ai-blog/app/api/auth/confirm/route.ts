@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 400 });
   }
 
-  const success = confirmSubscriber(token);
+  const success = await confirmSubscriber(token);
   if (!success) {
     return NextResponse.json({ success: false, error: 'Invalid or expired confirmation token' }, { status: 400 });
   }

@@ -18,12 +18,12 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get('page') || '1');
-  const result = getAllBlogsAdmin(page);
+  const result = await getAllBlogsAdmin(page);
   return NextResponse.json({ success: true, ...result });
 }
 
 async function triggerBlogEmails(blog: any) {
-  const result = getAllSubscribersAdmin(1, 10000);
+  const result = await getAllSubscribersAdmin(1, 10000);
   const activeSubs = result.data?.filter(s => s.status === 'active') || [];
   if (activeSubs.length === 0) return;
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   if (!payload) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const { title, content, excerpt, tags, featured_image, status } = body;
 
     if (!title || !content) {
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     }
 
     const ts = now();
-    const blog = createBlog({
+    const blog = await createBlog({
       title,
       slug: slugify(title),
       content,

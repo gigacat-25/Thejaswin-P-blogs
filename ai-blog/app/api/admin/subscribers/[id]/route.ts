@@ -12,6 +12,6 @@ export async function DELETE(req: Request, { params }: Params) {
   if (!payload) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
-  deleteSubscriber(parseInt(id));
+  await deleteSubscriber(parseInt(id));
   return NextResponse.json({ success: true });
 }

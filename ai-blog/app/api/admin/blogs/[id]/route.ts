@@ -15,7 +15,7 @@ async function auth() {
 interface Params { params: Promise<{ id: string }> }
 
 async function triggerBlogEmails(blog: any) {
-  const result = getAllSubscribersAdmin(1, 10000);
+  const result = await getAllSubscribersAdmin(1, 10000);
   const activeSubs = result.data?.filter(s => s.status === 'active') || [];
   if (activeSubs.length === 0) return;
 
@@ -39,7 +39,7 @@ async function triggerBlogEmails(blog: any) {
 export async function GET(req: Request, { params }: Params) {
   if (!await auth()) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
-  const blog = getBlogByIdAdmin(parseInt(id));
+  const blog = await getBlogByIdAdmin(parseInt(id));
   if (!blog) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
   return NextResponse.json({ success: true, data: blog });
 }
@@ -47,13 +47,13 @@ export async function GET(req: Request, { params }: Params) {
 export async function PUT(req: Request, { params }: Params) {
   if (!await auth()) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
-  const body = await req.json();
+  const body = await req.json() as any;
   const ts = now();
   
-  const original = getBlogByIdAdmin(parseInt(id));
+  const original = await getBlogByIdAdmin(parseInt(id));
   if (!original) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
 
-  const updated = updateBlog(parseInt(id), {
+  const updated = await updateBlog(parseInt(id), {
     ...body,
     updated_at: ts,
     published_at: body.status === 'published' && !body.published_at ? ts : body.published_at,
@@ -69,6 +69,6 @@ export async function PUT(req: Request, { params }: Params) {
 export async function DELETE(req: Request, { params }: Params) {
   if (!await auth()) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   const { id } = await params;
-  deleteBlog(parseInt(id));
+  await deleteBlog(parseInt(id));
   return NextResponse.json({ success: true });
 }

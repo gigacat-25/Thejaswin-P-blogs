@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 400 });
   }
 
-  const success = unsubscribeByToken(token);
+  const success = await unsubscribeByToken(token);
   if (!success) {
     return NextResponse.json({ success: false, error: 'Invalid unsubscribe token' }, { status: 400 });
   }

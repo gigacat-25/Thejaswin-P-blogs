@@ -22,7 +22,7 @@ export default function NewsletterForm({ compact = false }: NewsletterFormProps)
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, name }),
       });
-      const data = await res.json();
+      const data = await res.json() as any;
       if (data.success) {
         setStatus('success');
         setMessage(data.message || 'Check your inbox to confirm!');

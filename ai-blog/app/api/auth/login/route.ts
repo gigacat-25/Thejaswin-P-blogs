@@ -3,12 +3,12 @@ import { cookies, headers } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme123';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'thejaswinps@gmail.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Aarcha@2005*';
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email, password } = await request.json() as any;
 
     if (!email || !password) {
       return NextResponse.json({ success: false, error: 'Email and password required' }, { status: 400 });

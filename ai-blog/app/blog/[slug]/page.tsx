@@ -17,7 +17,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const blog = getBlogBySlug(slug);
+  const blog = await getBlogBySlug(slug);
   if (!blog) return { title: 'Not Found' };
   return {
     title: blog.title,
@@ -28,13 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
-  const blog = getBlogBySlug(slug);
+  const blog = await getBlogBySlug(slug);
   if (!blog) notFound();
 
   // Increment view count
-  incrementViewCount(slug);
+  await incrementViewCount(slug);
 
-  const related = getRelatedBlogs(blog.id, blog.tags);
+  const related = await getRelatedBlogs(blog.id, blog.tags);
   const headings = extractHeadings(blog.content);
   const readTime = readingTime(blog.content);
   const date = blog.published_at ? formatDate(blog.published_at) : formatDate(blog.created_at);

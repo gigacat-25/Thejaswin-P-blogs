@@ -4,14 +4,14 @@ import { generateToken } from '@/lib/utils';
 
 export async function POST(request: Request) {
   try {
-    const { email, name } = await request.json();
+    const { email, name } = await request.json() as any;
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ success: false, error: 'Invalid email address' }, { status: 400 });
     }
 
     // Duplicate check
-    const existing = getSubscriberByEmail(email);
+    const existing = await getSubscriberByEmail(email);
     if (existing) {
       if (existing.status === 'active') {
         return NextResponse.json({ success: false, error: 'This email is already subscribed.' }, { status: 409 });
@@ -21,13 +21,13 @@ export async function POST(request: Request) {
 
     const confirmToken = generateToken();
     const unsubToken = generateToken();
-    const subscriber = createSubscriber(email, name || null, confirmToken, unsubToken);
+    const subscriber = await createSubscriber(email, name || null, confirmToken, unsubToken);
 
     // In production: send confirmation email via Gmail API
     // For now: auto-confirm in dev mode
     if (process.env.NODE_ENV === 'development') {
       const { confirmSubscriber } = await import('@/lib/db');
-      confirmSubscriber(confirmToken);
+      await confirmSubscriber(confirmToken);
     }
 
     return NextResponse.json({

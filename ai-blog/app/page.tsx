@@ -7,7 +7,7 @@ import NewsletterForm from '@/components/forms/NewsletterForm';
 import { getPublishedBlogs } from '@/lib/db';
 
 export default async function HomePage() {
-  const { data: blogs } = getPublishedBlogs(1, 6);
+  const { data: blogs } = await getPublishedBlogs(1, 6);
   const featured = blogs.slice(0, 3);
   const recent = blogs.slice(3, 6);
 

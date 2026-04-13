@@ -6,8 +6,8 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = { title: 'Admin Dashboard' };
 
 export default async function AdminDashboard() {
-  const stats = getAdminStats();
-  const { data: recentBlogs } = getPublishedBlogs(1, 5);
+  const stats = await getAdminStats();
+  const { data: recentBlogs } = await getPublishedBlogs(1, 5);
 
   const statCards = [
     { label: 'Total Posts', value: stats.totalBlogs, sub: `${stats.publishedBlogs} published`, icon: <FileText size={20} />, color: 'var(--accent-cyan)' },

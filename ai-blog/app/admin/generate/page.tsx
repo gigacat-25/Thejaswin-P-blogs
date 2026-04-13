@@ -33,7 +33,7 @@ export default function GeneratePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, tone, keywords, length }),
       });
-      const data = await res.json();
+      const data = await res.json() as any;
       if (data.success) {
         setResult(data.content);
       } else {

@@ -14,21 +14,21 @@ export async function POST(req: Request) {
   if (!await auth()) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const { type, subject, html } = await req.json();
+    const { type, subject, html } = await req.json() as any;
 
     if (!subject || !html) {
       return NextResponse.json({ success: false, error: 'Missing subject or content' }, { status: 400 });
     }
 
     if (type === 'test') {
-      const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+      const adminEmail = process.env.ADMIN_EMAIL || 'thejaswinps@gmail.com';
       const result = await sendEmail({ to: adminEmail, subject: `[TEST] ${subject}`, html });
       return NextResponse.json(result);
     } 
     
     if (type === 'broadcast') {
       // Fetch all active subscribers
-      const result = getAllSubscribersAdmin(1, 10000); // Hack for now to get all
+      const result = await getAllSubscribersAdmin(1, 10000); // Hack for now to get all
       const activeSubs = result.data?.filter(s => s.status === 'active') || [];
       
       if (activeSubs.length === 0) {

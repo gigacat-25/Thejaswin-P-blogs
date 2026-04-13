@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: 'Edit Blog Post' };
 
 export default async function EditBlogPage({ params }: Props) {
   const { id } = await params;
-  const blog = getBlogByIdAdmin(parseInt(id));
+  const blog = await getBlogByIdAdmin(parseInt(id));
   if (!blog) notFound();
 
   return (

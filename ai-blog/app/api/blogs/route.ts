@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const search = searchParams.get('search') || undefined;
 
   try {
-    const result = getPublishedBlogs(page, perPage, tag, search);
+    const result = await getPublishedBlogs(page, perPage, tag, search);
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
     return NextResponse.json({ success: false, error: 'Failed to fetch blogs' }, { status: 500 });

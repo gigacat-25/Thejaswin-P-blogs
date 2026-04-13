@@ -7,6 +7,10 @@ command = "npm run build"
 watch_dir = "src"
 
 [[d1_databases]]
-binding = "DB" # Available in your worker as env.DB
+binding = "DB"
 database_name = "ai-blog-db"
-database_id = "YOUR_DATABASE_ID" # To be replaced after d1 create
+database_id = "9d891d85-3634-4fe2-81f1-2534ed407b6d"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "ai-blog-assets"

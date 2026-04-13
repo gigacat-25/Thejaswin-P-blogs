@@ -57,7 +57,7 @@ export default function BlogEditor({ initialData, mode }: BlogEditorProps) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, slug, content, excerpt, tags: JSON.stringify(tags), status, featured_image: featuredImage }),
     });
-    const data = await res.json();
+    const data = await res.json() as any;
     setSaving(false);
     if (data.success) {
       router.push('/admin/blogs');

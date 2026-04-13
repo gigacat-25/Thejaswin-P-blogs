@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { topic, tone, keywords, length } = await request.json();
+    const { topic, tone, keywords, length } = await request.json() as any;
 
     const wordCount = { short: 500, medium: 1000, long: 2000 }[length as string] ?? 1000;
     const toneMap: Record<string, string> = {
@@ -58,7 +58,7 @@ Do NOT include a title (H1) — just the body content starting from the first H2
       throw new Error(`Groq API error: ${err}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as any;
     const content = data.choices?.[0]?.message?.content || '';
 
     return NextResponse.json({ success: true, content });

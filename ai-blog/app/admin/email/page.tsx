@@ -26,7 +26,7 @@ export default function EmailCampaignPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'test', subject, html }),
       });
-      const data = await res.json();
+      const data = await res.json() as any;
       
       if (data.success) {
         setStatus('success');
@@ -51,7 +51,7 @@ export default function EmailCampaignPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'broadcast', subject, html }),
       });
-      const data = await res.json();
+      const data = await res.json() as any;
       
       if (data.success) {
         setStatus('success');

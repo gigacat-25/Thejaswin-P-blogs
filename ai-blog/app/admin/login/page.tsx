@@ -22,7 +22,7 @@ export default function LoginPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    const data = await res.json();
+    const data = await res.json() as any;
 
     if (data.success) {
       router.push('/admin');
@@ -106,7 +106,7 @@ export default function LoginPage() {
           </form>
 
           <p style={{ marginTop: 20, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-            Default: admin@example.com / changeme123
+            Credential: thejaswinps@gmail.com / Aarcha@2005*
           </p>
         </div>
       </div>

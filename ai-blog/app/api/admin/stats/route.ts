@@ -9,6 +9,6 @@ export async function GET() {
   const payload = token ? await verifyToken(token) : null;
   if (!payload) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
-  const stats = getAdminStats();
+  const stats = await getAdminStats();
   return NextResponse.json({ success: true, data: stats });
 }

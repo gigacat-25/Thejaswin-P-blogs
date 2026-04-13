@@ -21,7 +21,7 @@ export default async function BlogsPage({ searchParams }: Props) {
   const tag = params.tag;
   const search = params.search;
 
-  const { data: blogs, total, totalPages } = getPublishedBlogs(page, 9, tag, search);
+  const { data: blogs, total, totalPages } = await getPublishedBlogs(page, 9, tag, search);
 
   return (
     <>

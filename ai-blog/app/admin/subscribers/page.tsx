@@ -14,7 +14,7 @@ export default function SubscribersPage() {
   const fetchSubscribers = async (p = 1) => {
     setLoading(true);
     const res = await fetch(`/api/admin/subscribers?page=${p}`);
-    const data = await res.json();
+    const data = await res.json() as any;
     if (data.success) {
       setSubscribers(data.data);
       setTotal(data.total);
