@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   authors: [{ name: 'Thejaswin' }],
   creator: 'Thejaswin',
   publisher: 'Thejaswin Blogs',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/shortcut-icon.png',
+    apple: '/apple-icon.png',
+  },
+  manifest: '/site.webmanifest',
   robots: {
     index: true,
     follow: true,
@@ -48,6 +54,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Thejaswin Blogs',
+              url: 'https://thejaswinp.in',
+              logo: 'https://thejaswinp.in/logo.png',
+              sameAs: [
+                'https://twitter.com/thejaswinp',
+                'https://github.com/thejaswin-p',
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Thejaswin Blogs',
+              url: 'https://thejaswinp.in',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: 'https://thejaswinp.in/blogs?search={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

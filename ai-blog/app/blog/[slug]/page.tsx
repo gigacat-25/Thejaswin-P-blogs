@@ -63,6 +63,25 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <>
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: blog.title,
+            description: blog.excerpt || blog.content.substring(0, 160),
+            image: blog.featured_image ? [blog.featured_image] : [`${appUrl}/og-image.png`],
+            datePublished: new Date((blog.published_at || blog.created_at) * 1000).toISOString(),
+            dateModified: new Date((blog.published_at || blog.created_at) * 1000).toISOString(),
+            author: [{
+              '@type': 'Person',
+              name: 'Thejaswin',
+              url: appUrl,
+            }],
+          }),
+        }}
+      />
       <main style={{ padding: '48px 0 80px' }}>
         <div className="container">
           {/* Back link */}
