@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getBlogByIdAdmin } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import BlogEditor from '@/components/admin/BlogEditor';

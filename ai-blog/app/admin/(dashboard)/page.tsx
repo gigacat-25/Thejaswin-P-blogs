@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getAdminStats, getPublishedBlogs } from '@/lib/db';
 import Link from 'next/link';
 import { FileText, Users, Eye, TrendingUp, Plus, Bot, ArrowRight } from 'lucide-react';
