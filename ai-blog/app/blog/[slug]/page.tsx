@@ -18,11 +18,31 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
-  if (!blog) return { title: 'Not Found' };
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://thejaswinp.in';
+
+  if (!blog) return { title: 'Post Not Found' };
+
   return {
     title: blog.title,
-    description: blog.excerpt || undefined,
-    openGraph: { title: blog.title, description: blog.excerpt || undefined, type: 'article' },
+    description: blog.excerpt || blog.content.substring(0, 160),
+    alternates: {
+      canonical: `${baseUrl}/blog/${slug}`,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt || blog.content.substring(0, 160),
+      type: 'article',
+      url: `${baseUrl}/blog/${slug}`,
+      publishedTime: new Date((blog.published_at || blog.created_at) * 1000).toISOString(),
+      tags: blog.tags,
+      images: blog.featured_image ? [{ url: blog.featured_image, alt: blog.title }] : [{ url: '/og-image.png', alt: blog.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.title,
+      description: blog.excerpt || blog.content.substring(0, 160),
+      images: blog.featured_image ? [blog.featured_image] : ['/og-image.png'],
+    },
   };
 }
 

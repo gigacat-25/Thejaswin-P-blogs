@@ -8,7 +8,16 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Browse all articles on AI, cloud engineering, and modern development.',
+  description: 'Browse all articles on AI, cloud engineering, and modern development. Managed by Thejaswin.',
+  alternates: {
+    canonical: 'https://thejaswinp.in/blogs',
+  },
+  openGraph: {
+    title: 'ThejaswinBlogs – All Articles',
+    description: 'Deep-dive technical articles on AI, cloud architecture, and modern development.',
+    url: 'https://thejaswinp.in/blogs',
+    type: 'website',
+  },
 };
 
 interface Props {

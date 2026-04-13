@@ -2,20 +2,43 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://thejaswinp.in'),
   title: {
     default: 'ThejaswinBlogs – AI-Powered Tech Insights',
     template: '%s | ThejaswinBlogs',
   },
-  description: 'Deep-dive technical articles on AI, cloud architecture, and modern development — augmented by Groq AI.',
-  keywords: ['AI', 'tech blog', 'Cloudflare', 'Next.js', 'Groq', 'LLM'],
+  description: 'Deep-dive technical articles on AI, cloud architecture, and modern development — augmented by Groq AI and Llama 3.',
+  keywords: ['AI', 'tech blog', 'Cloudflare Workers', 'Next.js', 'Groq', 'LLM', 'Edge Computing', 'Software Engineering'],
   authors: [{ name: 'Thejaswin' }],
+  creator: 'Thejaswin',
+  publisher: 'Thejaswin Blogs',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    url: 'https://thejaswinp.in',
     siteName: 'ThejaswinBlogs',
+    title: 'ThejaswinBlogs – AI-Powered Tech Insights',
+    description: 'Deep-dive technical articles on AI, cloud architecture, and modern development.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'ThejaswinBlogs' }],
   },
-  twitter: { card: 'summary_large_image' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ThejaswinBlogs – AI-Powered Tech Insights',
+    description: 'Deep-dive technical articles on AI, cloud architecture, and modern development.',
+    creator: '@thejaswinp', // Update if known
+    images: ['/og-image.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

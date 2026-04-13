@@ -5,6 +5,15 @@ import Footer from '@/components/layout/Footer';
 import BlogCard from '@/components/blog/BlogCard';
 import NewsletterForm from '@/components/forms/NewsletterForm';
 import { getPublishedBlogs } from '@/lib/db';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Engineering Insights at Warp Speed',
+  description: 'Deep-dive articles on AI, Cloudflare Workers, and modern web engineering — crafted with the help of Groq\'s LLM.',
+  alternates: {
+    canonical: 'https://thejaswinp.in',
+  },
+};
 
 export default async function HomePage() {
   const { data: blogs } = await getPublishedBlogs(1, 6);
