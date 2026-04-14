@@ -1,5 +1,5 @@
-export const runtime = 'edge';
 'use client';
+export const runtime = 'edge';
 
 import { useState, useEffect } from 'react';
 import { Users, Search, Trash2, RefreshCw, Download } from 'lucide-react';

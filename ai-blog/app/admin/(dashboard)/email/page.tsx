@@ -1,5 +1,5 @@
-export const runtime = 'edge';
 'use client';
+export const runtime = 'edge';
 
 import { useState } from 'react';
 import { Mail, Send, Loader2, Sparkles, CheckCircle, LayoutTemplate } from 'lucide-react';
